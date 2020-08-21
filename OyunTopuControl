@@ -1,0 +1,41 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class OyunTopuControl : MonoBehaviour
+{
+    public OyunBarıControl oyunBari;
+    private bool oyunBaşladiMi;
+    private Vector3 topİleBarArasindakiMesafe;
+    // Start is called before the first frame update
+    void Start()
+    {
+        topİleBarArasindakiMesafe = this.transform.position - oyunBari.transform.position  ;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (!oyunBaşladiMi)
+        {
+            this.transform.position = oyunBari.transform.position + topİleBarArasindakiMesafe;
+            if (Input.GetMouseButtonDown(0))
+            {
+                oyunBaşladiMi = true;
+                this.GetComponent<Rigidbody2D>().velocity = new Vector3(4f, 11f, 0f);
+            }
+        }
+        
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Vector2 ufakSapma = new Vector2(Random.Range(0f, 0.3f), Random.Range(0f, 0.3f));// oyuntopu her çarpışmasında ufak değerlerle sapıcak
+        if (oyunBaşladiMi)
+        {
+            GetComponent<AudioSource>().Play();
+            GetComponent<Rigidbody2D>().velocity += ufakSapma; // oyuntopu velocity sine ufak sapmayı ekledik
+
+        }
+    
+    }
+}
