@@ -1,0 +1,40 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class SceneControl : MonoBehaviour
+{
+    
+    public void nextScene()
+    {
+        int mevcutSahneninİndexi = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(mevcutSahneninİndexi + 1);
+    }
+    public void kaybetmeSahnesi(string sahneısmi)
+    {
+        SceneManager.LoadScene(sahneısmi);
+    }
+    public void menuScene()
+    {
+        SceneManager.LoadScene(0);
+        
+    }
+    public void tekrarOyna()
+    {
+        SceneManager.LoadScene(1);
+    }
+    public void exit()
+    {
+        Application.Quit();
+    }
+    public void blokcontrol()
+    {
+        if(Blok.kırılabilirblok == 0)
+        {
+            nextScene();
+        }
+        
+
+    }
+}
