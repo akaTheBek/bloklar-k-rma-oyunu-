@@ -1,0 +1,70 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using UnityEngine;
+
+public class Blok : MonoBehaviour
+{
+    public GameObject efekt;
+    public static int kırılabilirblok = 0;
+    public int vurulmasayısı;
+    public bool kırılabilirmi;
+    private SceneControl sonrakiSahne;
+    public Sprite[] blokhasarları;
+    // Start is called before the first frame update
+    void Start()
+    {
+        kırılabilirmi = (this.tag == "kırılabilir");
+        if (kırılabilirmi)
+        {
+            kırılabilirblok++;
+            Debug.Log(kırılabilirblok);// kaç tane kırılabilir blok oldugunu ögrendik 
+        }
+        vurulmasayısı = 0;
+        sonrakiSahne= GameObject.FindObjectOfType< SceneControl> ();
+    }
+
+    // Update is called once per frame
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        GetComponent<AudioSource>().Play();
+        vurulmaKontrolü();
+        sonrakiSahne.blokcontrol();
+
+    }
+    public void vurulmaKontrolü()
+    {
+        int can;
+        can = blokhasarları.Length+ 1;
+        vurulmasayısı++;
+        //vurulmasayısı += 1;
+        //vurulmasayısı = vurulmasayısı + 1;
+        if (vurulmasayısı == can)
+        {
+            
+            kırılabilirblok--;
+            efektiOluştur();
+            Destroy(gameObject);
+            
+            Debug.Log(kırılabilirblok);
+        }
+        else
+        {
+            blokHasarları();
+        }
+    }
+    public void efektiOluştur()
+    {
+        GameObject efektimiz = Instantiate(efekt, gameObject.transform.position, Quaternion.identity) as GameObject;
+        efektimiz.GetComponent<ParticleSystem>().startColor = gameObject.GetComponent<SpriteRenderer>().color;
+    }
+    public void blokHasarları()
+    {
+        this.GetComponent<SpriteRenderer>().sprite =    blokhasarları[vurulmasayısı - 1 ];
+    }
+    public void sonrakiSahney()
+    {
+        sonrakiSahne.nextScene();
+    }
+    
+}
