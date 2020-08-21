@@ -1,0 +1,43 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class OyunBarıControl : MonoBehaviour
+{
+    public OyunTopuControl oyunTopu;
+    public bool otomatikKontrol = false;
+    [SerializeField] float  minX , maxX ;
+    // Start is called before the first frame update
+    void Start()
+    {
+        oyunTopu = GameObject.FindObjectOfType<OyunTopuControl>();// yukarda oluşturduğumuz oyuntopunun ne oldugunu belirttik 
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (otomatikKontrol)
+        {
+            otomatikcontrol();
+        }
+        else
+        {
+            mouseControl();
+        }
+    }
+    public void mouseControl()
+    {
+        Vector3 oyunBarıKonumu = new Vector3(0f, this.transform.position.y, 0f);//vektör 3 tipinde oyunbarıkonumu isimlideğişken oluşturduk ve ona bir değer atadık
+        float mouseKonumX = Input.mousePosition.x / Screen.width * 16;//mouse posisyonunu aldık   ekranın genişliğine böldük ve 16 ile çarptık
+        oyunBarıKonumu.x = Mathf.Clamp(mouseKonumX, minX, maxX); // oyunbarı konumunun x eksenini  mouse x konumuna  eşitledik
+        this.transform.position = oyunBarıKonumu;// burada bizim oluşturdugumuz vektör3 ün değerini bizim blogumuza eşitledik bu sayede blok hareket etti 
+    }
+    public void otomatikcontrol()
+    {
+        Vector3 oyunBarıKonumu = new Vector3(0f, this.transform.position.y, 0f);//vektör 3 tipinde oyunbarıkonumu isimlideğişken oluşturduk ve ona bir değer atadık
+        Vector3 oyuntopunkonumu = oyunTopu.transform.position; // oluşturduğumuz vektör 3 un konumunu oyuntopumuzun konumuna eşitledik
+        oyunBarıKonumu.x = Mathf.Clamp(oyuntopunkonumu.x, minX, maxX); // oyunbarının hangi değerler arasında takip edeceğini belirttik 
+        this.transform.position = oyunBarıKonumu;// burada bizim oluşturdugumuz vektör3 ün değerini bizim blogumuza eşitledik bu sayede blok hareket etti 
+    }
+
+}
