@@ -1,0 +1,12 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Kaybetme : MonoBehaviour
+{
+    public SceneControl kaybetme;  //SceneControl scriptine  ulaştık ve ismini kaybetme dedik
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        kaybetme.kaybetmeSahnesi("Kaybetme");// kaybetme yi çagirmak demek SceneControl scripti içerisindeki fonksiyonlara ulaşmak demek kaybetme fonksiyonunu çağırıp kaybetme sahnesine yönlenmesini sağladık
+    }
+}
